@@ -17,7 +17,7 @@ class BabelFishSpec extends FlatSpec with Matchers {
     trait Adder {
       def sum(a: Int, b: Int): Int
     }
-    val adder = eval.as[Adder]
+    val adder: Adder = eval.as[Adder]
     assert(adder.sum(7, 8) == 15)
 
     assert(eval.sum[String]("hello", "world") == "helloworld")
@@ -37,6 +37,13 @@ class BabelFishSpec extends FlatSpec with Matchers {
       };
     """)
     assert(rick.sayHi[String]("Anna") == "Hello Anna! My name is Rick")
-    //assert(rick.age[Int] == 28)
+
+//    trait Person {
+//      def sayHi(friend: String): String
+//    }
+//
+//    assert(rick.as[Person].sayHi("Anna") == "Hello Anna! My name is Rick")
+
+    assert(rick.age == 28)
   }
 }

@@ -3,7 +3,7 @@
 `BabelFish` is a [dependency-free](build.sbt) [Scala wrapper](src/main/scala/com/github/pathikrit/babelfish/Evaluator.scala) 
 around [JSR 223](https://www.jcp.org/en/jsr/detail?id=223) that let's you invoke other languages from Scala on the JVM.
 
-Example invoking JavaScript:
+Invoking JavaScript:
 ```scala
 val eval = new Evaluator.JavaScript
 eval("function sum(a, b) { return a + b; }")
@@ -23,7 +23,7 @@ We can even invoke `sum` through an interface:
 trait Adder {
   def sum(a: Int, b: Int): Int
 }
-val adder = eval.as[Adder]
+val adder: Adder = eval.as[Adder]
 assert(adder.sum(7, 8) == 15)
 ```
 
