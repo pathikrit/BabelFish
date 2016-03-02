@@ -19,5 +19,8 @@ class BabelFishSpec extends FlatSpec with Matchers {
     }
     val k = eval.as[Adder]
     assert(k.sum(7, 8) == 15)
+
+    assert(eval.sum[String]("hello", "world") == "helloworld")
+    a[ClassCastException] must be thrownBy eval.sum[Int]("hello", "world")
   }
 }

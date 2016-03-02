@@ -28,6 +28,12 @@ val k = eval.as[Adder]
 assert(k.sum(7, 8) == 15)
 ```
 
+Note that we can invoke `sum` for other types too e.g.:
+```
+assert(eval.sum[String]("hello", "world") == "helloworld")
+eval.sum[Int]("hello", "world") // Exception!
+```
+
 [licenseImg]: https://img.shields.io/github/license/pathikrit/BabelFish.svg
 [licenseImg2]: https://img.shields.io/:license-mit-blue.svg
 [licenseLink]: LICENSE
