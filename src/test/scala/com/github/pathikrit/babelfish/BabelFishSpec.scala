@@ -6,10 +6,10 @@ class BabelFishSpec extends FlatSpec with Matchers {
 
   "BabelFish" can "eval JavaScript" in {
     val eval = new Evaluator.JavaScript
-    eval[Unit]("function sum(a, b) { return a + b; }")
+    eval("function sum(a, b) { return a + b; }")
 
-    val i: Int = eval("sum(1, 2);")
-    assert(i == 3)
+    val i = eval.as[Int]("sum(1, 2);")
+    assert(i + 3 == 6)
 
     val j: Int = eval.sum(9, 7)
     assert(j == 16)
@@ -27,7 +27,7 @@ class BabelFishSpec extends FlatSpec with Matchers {
 
   it can "eval JavaScript classes" in {
     val eval = new Evaluator.JavaScript
-    val rick = eval.load(s"""
+    val rick = eval(s"""
       new function () {
         this.name = "Rick";
         this.age = 28;

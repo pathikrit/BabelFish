@@ -7,7 +7,9 @@ import scala.reflect.ClassTag
 class Evaluator(engine: Evaluator.Engine, thiz: Option[AnyRef] = None) extends Dynamic {
   def this(extension: String) = this(new ScriptEngineManager().getEngineByExtension(extension).asInstanceOf[Evaluator.Engine])
 
-  def apply[A](code: String): A = engine.eval(code).asInstanceOf[A]
+  def as[A](code: String): A = engine.eval(code).asInstanceOf[A]
+
+  def apply(code: String): Evaluator = new Evaluator(engine, Some(as[AnyRef](code)))
 
   def as[A: ClassTag]: A = {
     val clazz = implicitly[ClassTag[A]].runtimeClass
@@ -26,8 +28,6 @@ class Evaluator(engine: Evaluator.Engine, thiz: Option[AnyRef] = None) extends D
     }
     result.asInstanceOf[A]
   }
-
-  def load(code: String): Evaluator = new Evaluator(engine, Some(apply[AnyRef](code)))
 }
 
 object Evaluator {

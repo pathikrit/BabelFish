@@ -6,10 +6,10 @@ around [JSR 223](https://www.jcp.org/en/jsr/detail?id=223) that let's you invoke
 Example invoking JavaScript:
 ```scala
 val eval = new Evaluator.JavaScript
-eval[Unit]("function sum(a, b) { return a + b; }")
+eval("function sum(a, b) { return a + b; }")
 
-val i: Int = eval("sum(1, 2);")
-assert(i == 3)
+val i = eval.as[Int]("sum(1, 2);")
+assert(i + 3 == 6)
 ```
 
 We can use Scala's [Dynamic](http://www.scala-lang.org/files/archive/nightly/2.12.x/api/2.12.x/scala/Dynamic.html) too to invoke:
@@ -36,7 +36,7 @@ eval.sum[Int]("hello", "world") // Exception!
 Support for objects:
 ```scala
 val eval = new Evaluator.JavaScript
-val rick = eval.load(s"""
+val rick = eval(s"""
   new function () {
     this.name = "Rick";
     this.age = 28;
@@ -48,6 +48,8 @@ val rick = eval.load(s"""
 assert(rick.sayHi[String]("Anna") == "Hello Anna! My name is Rick")
 assert(rick.age[Int] == 28)
 ```
+
+See the [tests](src/test/scala/com/github/pathikrit/babelfish/BabelFishSpec.scala) for more examples. [![codecov][codecovImg]][codecovLink]
 
 [licenseImg]: https://img.shields.io/github/license/pathikrit/BabelFish.svg
 [licenseImg2]: https://img.shields.io/:license-mit-blue.svg
