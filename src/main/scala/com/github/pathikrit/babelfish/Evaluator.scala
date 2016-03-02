@@ -1,17 +1,37 @@
 package com.github.pathikrit.babelfish
 
-class Evaluator(extension: String) {
-  protected[this] val engine = new javax.script.ScriptEngineManager().getEngineByExtension(extension)
-  def apply[A](code: String): A = engine.eval(code).asInstanceOf[A]
-}
+import javax.script.{ScriptEngine, ScriptEngineManager, Invocable}
 
-class DynamicEvaluator(extension: String) extends Evaluator(extension: String) with Dynamic {
-  private[this] val invoker = engine.asInstanceOf[javax.script.Invocable]
-  def as[A](implicit ct: scala.reflect.ClassTag[A]): A = invoker.getInterface(ct.runtimeClass).asInstanceOf[A]
-  def applyDynamic[A](method: String)(args: Any*) = invoker.invokeFunction(method, args.map(_.asInstanceOf[AnyRef]) : _*).asInstanceOf[A]
+import scala.reflect.ClassTag
+
+class Evaluator(engine: Evaluator.Engine, thiz: Option[AnyRef] = None) extends Dynamic {
+  def this(extension: String) = this(new ScriptEngineManager().getEngineByExtension(extension).asInstanceOf[Evaluator.Engine])
+
+  def apply[A](code: String): A = engine.eval(code).asInstanceOf[A]
+
+  def as[A: ClassTag]: A = {
+    val clazz = implicitly[ClassTag[A]].runtimeClass
+    val result = thiz match {
+      case Some(t) => engine.getInterface(t, clazz)
+      case _ => engine.getInterface(clazz)
+    }
+    result.asInstanceOf[A]
+  }
+
+  def applyDynamic[A](method: String)(args: Any*): A = {
+    val _args = args.map(_.asInstanceOf[AnyRef])
+    val result = thiz match {
+      case Some(t) => engine.invokeMethod(t, method, _args: _*)
+      case _ => engine.invokeFunction(method, _args: _*)
+    }
+    result.asInstanceOf[A]
+  }
+
+  def load(code: String): Evaluator = new Evaluator(engine, Some(apply[AnyRef](code)))
 }
 
 object Evaluator {
-  class JavaScript extends DynamicEvaluator("js")
-  class Shell extends DynamicEvaluator("sh")
+  type Engine = ScriptEngine with Invocable
+  class JavaScript extends Evaluator("js")
+  //class Shell extends Evaluator("sh")
 }

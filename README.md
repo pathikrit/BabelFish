@@ -1,6 +1,5 @@
 # BabelFish [![License][licenseImg]][licenseLink] [![CircleCI][circleCiImg]][circleCiLink] [![Codacy][codacyImg]][codacyLink] [![Gitter][gitterImg]][gitterLink]
 
-
 `BabelFish` is a [dependency-free](build.sbt) [Scala wrapper](src/main/scala/com/github/pathikrit/babelfish/Evaluator.scala) 
 around [JSR 223](https://www.jcp.org/en/jsr/detail?id=223) that let's you invoke other languages from Scala on the JVM.
 
@@ -32,6 +31,22 @@ Note that we can invoke `sum` for other types too e.g.:
 ```scala
 assert(eval.sum[String]("hello", "world") == "helloworld")
 eval.sum[Int]("hello", "world") // Exception!
+```
+
+Support for objects:
+```scala
+val eval = new Evaluator.JavaScript
+val rick = eval.load(s"""
+  new function () {
+    this.name = "Rick";
+    this.age = 28;
+    this.sayHi = function (friend) {
+      return "Hello " + friend + "! My name is " + this.name;
+    }
+  };
+""")
+assert(rick.sayHi[String]("Anna") == "Hello Anna! My name is Rick")
+assert(rick.age[Int] == 28)
 ```
 
 [licenseImg]: https://img.shields.io/github/license/pathikrit/BabelFish.svg

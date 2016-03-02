@@ -22,6 +22,21 @@ class BabelFishSpec extends FlatSpec with Matchers {
 
     assert(eval.sum[String]("hello", "world") == "helloworld")
     a[ClassCastException] must be thrownBy eval.sum[Int]("hello", "world")
-    a[NoSuchMethodError] must be thrownBy eval.product(1, 2)
+    a[NoSuchMethodException] must be thrownBy eval.product(1, 2)
+  }
+
+  it can "eval JavaScript classes" in {
+    val eval = new Evaluator.JavaScript
+    val rick = eval.load(s"""
+      new function () {
+        this.name = "Rick";
+        this.age = 28;
+        this.sayHi = function (friend) {
+          return "Hello " + friend + "! My name is " + this.name;
+        }
+      };
+    """)
+    assert(rick.sayHi[String]("Anna") == "Hello Anna! My name is Rick")
+    //assert(rick.age[Int] == 28)
   }
 }
