@@ -6,16 +6,18 @@ around [JSR 223](https://www.jcp.org/en/jsr/detail?id=223) that let's you invoke
 
 Example invoking JavaScript:
 ```scala
-val eval = new Evaluator.JS
+val eval = new Evaluator.JavaScript
 eval[Unit]("function sum(a, b) { return a + b; }")
 
-val i = eval[Int]("sum(1, 2);")
-assert(i + 3 == 6)
+val i: Int = eval("sum(1, 2);")
+assert(i == 3)
 ```
 
-We can use Scala's [Dynamic] too to invoke:
+We can use Scala's [Dynamic](http://www.scala-lang.org/files/archive/nightly/2.12.x/api/2.12.x/scala/Dynamic.html) too to invoke:
 ```scala
-assert(eval.sum[Int](9, 7) == 16)
+
+val j: Int = eval.sum(9, 7)
+assert(j == 16)
 ```
 
 [licenseImg]: https://img.shields.io/github/license/pathikrit/BabelFish.svg

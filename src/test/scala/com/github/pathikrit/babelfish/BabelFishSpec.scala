@@ -5,13 +5,14 @@ import org.scalatest._
 class BabelFishSpec extends FlatSpec with Matchers {
 
   "BabelFish" can "eval JavaScript" in {
-    val eval = new Evaluator.JS
+    val eval = new Evaluator.JavaScript
     eval[Unit]("function sum(a, b) { return a + b; }")
 
-    val i = eval[Int]("sum(1, 2);")
-    assert(i + 3 == 6)
+    val i: Int = eval("sum(1, 2);")
+    assert(i == 3)
 
-    assert(eval.sum[Int](9, 7) == 16)
+    val j: Int = eval.sum(9, 7)
+    assert(j == 16)
 
     /*trait Adder {
       def sum(a: Int, b: Int): Int

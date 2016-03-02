@@ -14,6 +14,6 @@ class DynamicEvaluator(extension: String) extends Evaluator(extension: String) w
 }
 
 object Evaluator {
-  class JS extends DynamicEvaluator("js")
+  class JavaScript extends DynamicEvaluator("js")
   class Shell extends DynamicEvaluator("sh")
 }
