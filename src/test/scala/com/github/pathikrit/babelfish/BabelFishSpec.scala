@@ -17,10 +17,11 @@ class BabelFishSpec extends FlatSpec with Matchers {
     trait Adder {
       def sum(a: Int, b: Int): Int
     }
-    val k = eval.as[Adder]
-    assert(k.sum(7, 8) == 15)
+    val adder = eval.as[Adder]
+    assert(adder.sum(7, 8) == 15)
 
     assert(eval.sum[String]("hello", "world") == "helloworld")
     a[ClassCastException] must be thrownBy eval.sum[Int]("hello", "world")
+    a[NoSuchMethodError] must be thrownBy eval.product(1, 2)
   }
 }

@@ -24,12 +24,12 @@ We can even invoke `sum` through an interface:
 trait Adder {
   def sum(a: Int, b: Int): Int
 }
-val k = eval.as[Adder]
-assert(k.sum(7, 8) == 15)
+val adder = eval.as[Adder]
+assert(adder.sum(7, 8) == 15)
 ```
 
 Note that we can invoke `sum` for other types too e.g.:
-```
+```scala
 assert(eval.sum[String]("hello", "world") == "helloworld")
 eval.sum[Int]("hello", "world") // Exception!
 ```
@@ -50,8 +50,8 @@ eval.sum[Int]("hello", "world") // Exception!
 [versionEyeImg]: https://www.versioneye.com/user/projects/55f5e7de3ed894001e0003b1/badge.svg
 [versionEyeLink]: https://www.versioneye.com/user/projects/55f5e7de3ed894001e0003b1
 
-[codacyImg]: https://img.shields.io/codacy/0e2aeb7949bc49e6802afcc43a7a1aa1.svg
-[codacyImg2]: https://api.codacy.com/project/badge/grade/0e2aeb7949bc49e6802afcc43a7a1aa1
+[codacyImg]: https://img.shields.io/codacy/014bfb25162b469bb0538cca7b4ec18d.svg
+[codacyImg2]: https://api.codacy.com/project/badge/grade/014bfb25162b469bb0538cca7b4ec18d
 [codacyLink]: https://www.codacy.com/app/pathikrit/BabelFish/dashboard
 
 [mavenImg]: https://img.shields.io/maven-central/v/com.github.pathikrit/BabelFish_2.11.svg
@@ -61,6 +61,3 @@ eval.sum[Int]("hello", "world") // Exception!
 [gitterImg]: https://img.shields.io/gitter/room/pathikrit/BabelFish.svg
 [gitterImg2]: https://badges.gitter.im/Join%20Chat.svg
 [gitterLink]: https://gitter.im/pathikrit/BabelFish
-
-[scaladocImg]: http://img.shields.io/:docs-ScalaDoc-blue.svg
-[scaladocLink]: http://pathikrit.github.io/BabelFish/latest/api#better.files.File
