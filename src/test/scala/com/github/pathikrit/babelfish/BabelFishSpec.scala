@@ -14,10 +14,10 @@ class BabelFishSpec extends FlatSpec with Matchers {
     val j: Int = eval.sum(9, 7)
     assert(j == 16)
 
-    /*trait Adder {
+    trait Adder {
       def sum(a: Int, b: Int): Int
     }
-    val j = eval.as[Adder]
-    println(j.sum(7, 8) == 15)*/
+    val k = eval.as[Adder]
+    assert(k.sum(7, 8) == 15)
   }
 }
