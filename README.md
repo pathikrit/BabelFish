@@ -27,7 +27,7 @@ val adder: Adder = eval.as[Adder]
 assert(adder.sum(7, 8) == 15)
 ```
 
-Note that we can invoke `sum` for other types too e.g.:
+Note that we can invoke `sum` for other types too:
 ```scala
 assert(eval.sum[String]("hello", "world") == "helloworld")
 eval.sum[Int]("hello", "world") // Exception!
@@ -47,6 +47,13 @@ val rick = eval(s"""
 """)
 assert(rick.sayHi[String]("Anna") == "Hello Anna! My name is Rick")
 assert(rick.age[Int] == 28)
+```
+
+We can even eval script files:
+```scala
+val eval = new Evaluator.JavaScript
+val $ = eval.file("scripts/lodash.min.js")
+assert($.min[Int](Array(48, 12, 19, 23)) == 12)
 ```
 
 See the [tests](src/test/scala/com/github/pathikrit/babelfish/BabelFishSpec.scala) for more examples. [![codecov][codecovImg]][codecovLink]

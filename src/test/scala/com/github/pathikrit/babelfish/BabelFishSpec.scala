@@ -2,6 +2,8 @@ package com.github.pathikrit.babelfish
 
 import org.scalatest._
 
+//import better.files._
+
 class BabelFishSpec extends FlatSpec with Matchers {
 
   "BabelFish" can "eval JavaScript" in {
@@ -45,5 +47,11 @@ class BabelFishSpec extends FlatSpec with Matchers {
 //    assert(rick.as[Person].sayHi("Anna") == "Hello Anna! My name is Rick")
 
     assert(rick.age == 28)
+  }
+
+  it can "eval files" in {
+    val eval = new Evaluator.JavaScript
+    val $ = eval.file("src/test/resources/lodash.min.js")
+    assert($.min[Int](Array(48, 12, 19, 23)) == 12)
   }
 }
